@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>AddBalls</title>
+
+</head>
+<body>
+	<canvas id="count" style="display: block;margin: 0 auto;"></canvas>
+	
+	<script type="text/javascript" src="scripts/digit.js"></script>
+	<script type="text/javascript">
+		var CANVAS_WIDTH = 1024;
+		var CANVAS_HEIGHT = 768;
+		var RADIUS = 8;
+		var X = 449;
+		var Y = 100;
+
+		var countNum = 9;
+		var balls = [];
+		var colors = ['red','blue','yellow','green','orange'];
+
+
+		window.onload = function(){
+			var canvas = document.getElementById('count');
+			var ctx = canvas.getContext('2d');
+
+			canvas.width = CANVAS_WIDTH;
+			canvas.height = CANVAS_HEIGHT;
+
+			var add = addBalls();
+
+			var timer = setInterval(function(){
+				if (countNum > 0) {
+					countNum--;
+				}else{
+					clearInterval(timer);
+				}
+			},1000);
+			var renderTimer = setInterval(function(){
+				ctx.clearRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT);
+				renderDigit(ctx);
+				add();
+				renderBalls(ctx);
+				updateBalls();
+			},100);
+		}
+
+		// 小球对象构造函数
+		function Ball(c,x,y,vx,vy,a){
+			this.color = c;
+			this.x = x;
+			this.y = y;
+			this.vx = vx;
+			this.vy = vy;
+			this.a = a;
+		}
+
+		//添加小球对象; 
+		function addBalls(){
+			var count = 9;
+			function add(){
+				if (count == countNum) {
+					count--;
+					for (var i = 0; i < 10; i++) {
+						for(var j = 0;j < 7; j++){
+							if (digit[countNum][i][j] == 1) {
+								var c = colors[Math.floor(Math.random()*5)];
+								var x = X + 2*j*(RADIUS + 1) + RADIUS + 1;
+								var y = Y + 2*i*(RADIUS + 1) + RADIUS + 1;
+								var vx = Math.random()*10;
+								var vy = 0;
+								var a = 5;
+
+								var _Ball = new Ball(c,x,y,vx,vy,a);
+								balls.push(_Ball);
+
+							}
+						}
+					}					
+				}
+			}
+			return add;
+		}
+
+
+		// 绘制小球
+		function renderBalls(ctx){
+			for(var i = 0;i < balls.length;i++){
+				ctx.beginPath();
+				ctx.fillStyle = balls[i].color;
+				ctx.arc(balls[i].x,balls[i].y,RADIUS,0,Math.PI*2);
+				ctx.fill();
+			}
+		}
+
+		// 绘制数字
+		function renderDigit(ctx){
+			// ctx.fillStyle = colors[Math.floor(5*Math.random())];
+			for(var i = 0;i < 10;i++){
+				for(var j = 0;j < 7;j++){
+					if(digit[countNum][i][j] == 1){
+						// ctx.fillStyle = colors[Math.floor(5*Math.random())];
+						ctx.fillStyle = 'blue';
+						ctx.beginPath();
+						ctx.arc(X + 2*j*(RADIUS + 1) + RADIUS + 1,Y + 2*i*(RADIUS + 1) + RADIUS + 1,RADIUS,0,Math.PI*2);
+						ctx.fill();
+					}
+				}
+			}
+		}
+
+		// 更新小球
+		function updateBalls(){
+			for(var i = 0;i < balls.length;i++){
+				balls[i].x += balls[i].vx;
+				balls[i].y += balls[i].vy;
+				balls[i].vy += balls[i].a;
+			}
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ballmove</title>
+
+</head>
+<body>
+	<canvas id="move" style="display: block;margin: 0 auto;"></canvas>
+
+	<script type="text/javascript">
+		var CANVAS_W = 1024;
+		var CANVAS_H = 768;
+		var RADIUS = 8;
+
+		var canvas = document.getElementById('move');
+		canvas.width = CANVAS_W;
+		canvas.height = CANVAS_H;
+		var context = canvas.getContext('2d');
+
+		// 用循环实现动画
+		function move1(){
+			context.fillStyle = 'blue';
+			var ball = {
+				x: 10,
+				y: 10,
+				vx: 10,
+				vy: 10,
+				a: 5
+			}
+			for(var i = 0;i < 100;i++){
+				setTimeout(function(){
+					context.clearRect(0,0,CANVAS_W,CANVAS_H);
+					context.beginPath();
+					context.arc(ball.x,ball.y,RADIUS,0,2*Math.PI);
+					context.fill();
+
+					ball.x += ball.vx;
+					ball.y += ball.vy;
+					ball.vy + ball.a;
+				},100*(i + 1));
+			}
+		}
+
+
+		// 用嵌套实现动画
+		var ball = {
+			x: 10,
+			y: 10,
+			vx: 10,
+			vy: 10,
+			a: 5
+		}
+		function move2(){
+			context.fillStyle = 'red';
+			// var ball = {
+			// 	x: 10,
+			// 	y: 10,
+			// 	vx: 10,
+			// 	vy: 10,
+			// 	a: 5
+			// }
+			context.clearRect(0,0,CANVAS_W,CANVAS_H);
+			context.beginPath();
+			context.arc(ball.x,ball.y,RADIUS,0,2*Math.PI);
+			context.fill();
+
+			ball.x += ball.vx;
+			ball.y += ball.vy;
+			ball.vy += ball.a;
+
+			console.log(ball.x < CANVAS_W && ball.y < CANVAS_H);
+			if(ball.x < CANVAS_W && ball.y < CANVAS_H){
+				console.log(ball);
+				var timer = setTimeout(move2,1000);
+			}
+		}
+
+		// 闭包加嵌套实现动画
+		function move3(){
+			var ball = {
+				x: 10,
+				y: 10,
+				vx: 10,
+				vy: 10,
+				a: 5
+			};
+			context.fillStyle = 'green';
+			function moveInner(){
+				context.clearRect(0,0,CANVAS_W,CANVAS_H);
+				context.beginPath();
+				context.arc(ball.x,ball.y,RADIUS,0,2*Math.PI);
+				context.fill();
+
+				ball.x += ball.vx;
+				ball.y += ball.vy;
+				ball.vy += ball.a;
+
+				setTimeout(moveInner,100);
+			}
+			return moveInner();
+		}
+
+		window.onload = function(){
+			// move1();
+			move3();
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>setTimeout</title>
+
+</head>
+<body>
+	
+
+	<script type="text/javascript">
+		var timer = setTimeout('alert("abc")',1000);
+
+		function foo(){
+			alert("abc");
+		}
+
+		var timer = setTimeout('foo()',1000);
+		var timer = setTimeout(foo,1000);
+	</script>
+</body>
+</html>
