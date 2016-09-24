@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>loveLeaf</title>
+
+</head>
+<body>
+	<!-- <img id="test" src="imgs/heart.jpg" alt="test"> -->
+	<canvas id="leaf" style="display: block;margin: 0 auto;border: 1px solid blue;"></canvas>
+
+	<script type="text/javascript">
+		var CANVAS_WIDTH = 1024;
+		var CANVAS_HEIGHT = 768;
+
+		var imgs = [];
+
+		window.onload = function(){
+			var canvas = document.getElementById('leaf');
+			var ctx = canvas.getContext('2d');
+			canvas.width = CANVAS_WIDTH;
+			canvas.height = CANVAS_HEIGHT;
+
+			var timer = setInterval(function(){
+				ctx.clearRect(0,0,1024,768);
+				addImg();
+				drawImg(ctx);
+				updateImg();
+			},100)
+		}
+
+		// 图像对象的构造函数
+		function Img(){
+			// this.img = document.getElementById('test');
+			this.img = new Image();
+			this.img.src = 'imgs/heart.png'
+			this.x = Math.random()*1024;
+			this.y = 0;
+			this.vx = Math.random() > 0.5 ? -1 : 1;
+			this.vy = Math.floor(Math.random()*5) +2;
+			console.log(this.x);
+		}
+
+		// 添加图片
+		function addImg(){
+			if(Math.random() > 0.9){
+				var _Img = new Img();
+				imgs.push(_Img); 
+			}
+			
+			// console.log(imgs);
+		}
+
+		// 绘制图片
+		function drawImg(ctx){
+			for(var i = 0;i < imgs.length;i++){
+				ctx.beginPath();
+				ctx.drawImage(imgs[i].img,imgs[i].x,imgs[i].y);
+				// console.log(imgs);
+			}
+		}
+
+		// 更新图片坐标
+		function updateImg(){
+			for(var i = 0;i < imgs.length;i++){
+				imgs[i].x += imgs[i].vx;
+				imgs[i].y += imgs[i].vy;
+				// imgs[i].vx = Math.random() > 0.5 ? -1 : 1;
+				imgs[i].vx = 0;
+			}
+		}
+
+
+	</script>
+</body>
+</html>
