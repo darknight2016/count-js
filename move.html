@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>move</title>
+	
+	<style type="text/css">
+		#move{
+			position: absolute;
+			width: 200px;
+			height: 200px;
+			background: red;
+		}
+	</style>
+</head>
+<body>
+	<div id="move"></div>
+
+	<script type="text/javascript">
+		var moveElement = document.getElementById('move');
+		var left = 0;
+
+		var timer = setTimeout(function(){
+			left += 10;
+			moveElement.style.left =left + 'px';
+			setTimeout(arguments.callee,100);
+		},100)
+	</script>
+</body>
+</html>

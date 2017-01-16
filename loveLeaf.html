@@ -38,7 +38,7 @@
 			this.y = 0;
 			this.vx = Math.random() > 0.5 ? -1 : 1;
 			this.vy = Math.floor(Math.random()*5) +2;
-			console.log(this.x);
+			// console.log(this.x);
 		}
 
 		// 添加图片
@@ -68,6 +68,20 @@
 				// imgs[i].vx = Math.random() > 0.5 ? -1 : 1;
 				imgs[i].vx = 0;
 			}
+			
+			// 优化imgs数组
+			var countImg = 0;
+			for (var i = 0; i < imgs.length; i++){
+				if (imgs[i].y < 768) {
+					imgs[countImg] = imgs[i];
+					countImg++;
+				}
+			}
+			for(var i = imgs.length;i > countImg;i--){
+				imgs.pop();
+			}
+
+			console.log(imgs.length);
 		}
 
 

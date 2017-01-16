@@ -37,6 +37,7 @@
 					clearInterval(timer);
 				}
 			},1000);
+
 			var renderTimer = setInterval(function(){
 				ctx.clearRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT);
 				renderDigit(ctx);
@@ -44,6 +45,14 @@
 				renderBalls(ctx);
 				updateBalls();
 			},100);
+			var birthdayTime = setTimeout(function(){
+				clearInterval(renderTimer);
+				ctx.clearRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT);
+				ctx.fillStyle = '#f00';
+				ctx.font = 'bold 40px Arial';
+				ctx.fillText('空空，生日快乐！！！',300,150);
+				console.log('aaa');
+			},10000);
 		}
 
 		// 小球对象构造函数
@@ -117,6 +126,19 @@
 				balls[i].y += balls[i].vy;
 				balls[i].vy += balls[i].a;
 			}
+			// console.log(balls.length);
+			// 优化小球
+			var countBalls = 0;
+			for(var i = 0;i < balls.length;i++){
+				if (balls[i].y < 768) {
+					balls[countBalls++] = balls[i];
+				}
+			}
+
+			for(var i = balls.length;i > countBalls;i--){
+				balls.pop();
+			}
+			// console.log(balls.length);
 		}
 	</script>
 </body>
